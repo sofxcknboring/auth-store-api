@@ -27,10 +27,14 @@ class DataBaseSettings(BaseModel):
         )
 
 
+class JwtToken(BaseModel):
+    secret: SecretStr
+    lifetime_seconds: int
+
+
 class Settings(BaseSettings):
     db: DataBaseSettings
-    jwt_secret: SecretStr
-
+    jwt_token: JwtToken
     model_config = SettingsConfigDict(
         extra="ignore",
         env_file=".env",

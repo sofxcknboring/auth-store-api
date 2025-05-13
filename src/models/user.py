@@ -16,7 +16,9 @@ class User(Base, SQLAlchemyBaseUserTable[int]):
     __tablename__ = "users"
 
     full_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    phone: Mapped[str] = mapped_column(String(15), unique=True, index=True, nullable=False)
+    phone: Mapped[str] = mapped_column(
+        String(15), unique=True, index=True, nullable=False
+    )
 
     @classmethod
     def get_db(cls, session: "AsyncSession"):
