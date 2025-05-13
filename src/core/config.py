@@ -29,6 +29,7 @@ class DataBaseSettings(BaseModel):
 
 class Settings(BaseSettings):
     db: DataBaseSettings
+    jwt_secret: SecretStr
 
     model_config = SettingsConfigDict(
         extra="ignore",
