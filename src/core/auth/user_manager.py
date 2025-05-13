@@ -16,8 +16,8 @@ log = logging.getLogger(__name__)
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    reset_password_token_secret = settings.jwt_secret
-    verification_token_secret = settings.jwt_secret
+    reset_password_token_secret = settings.jwt_token.secret
+    verification_token_secret = settings.jwt_token.secret
 
     async def validate_password(self, password: str, user: User) -> None:
         if len(password) < 8:
@@ -42,19 +42,19 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         await super().validate_password(password, user)
 
     async def on_after_register(
-        self, user: User, request: Optional[Request] = None
+        self, user: User, request: Optional["Request"] = None
     ) -> None:
         # Some logic
         log.warning(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
-        self, user: User, token: str, request: Optional[Request] = None
+        self, user: User, token: str, request: Optional["Request"] = None
     ) -> None:
         # Some logic
         log.warning(f"User {user.id} has forgot their password. Reset token: {token}")
 
     async def on_after_request_verify(
-        self, user: User, token: str, request: Optional[Request] = None
+        self, user: User, token: str, request: Optional["Request"] = None
     ) -> None:
         # Some logic
         log.warning(

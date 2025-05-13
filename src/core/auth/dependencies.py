@@ -13,11 +13,11 @@ if TYPE_CHECKING:
     from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 
-async def get_user_db(session: AsyncSession = Depends(db_helper.session_getter)):
+async def get_user_db(session: "AsyncSession" = Depends(db_helper.session_getter)):
     yield User.get_db(session=session)
 
 
-async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
+async def get_user_manager(user_db: "SQLAlchemyUserDatabase" = Depends(get_user_db)):
     yield UserManager(user_db)
 
 
