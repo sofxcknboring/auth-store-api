@@ -9,6 +9,8 @@ from src.core.config import settings
 from src.models.base import Base
 
 from src.models.user import User # noqa
+from src.models.cart import Cart, CartItem # noqa
+from src.models.product import Product # noqa
 
 config = context.config
 
