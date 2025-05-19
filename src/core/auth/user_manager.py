@@ -5,6 +5,8 @@ from fastapi import HTTPException
 
 from fastapi_users import IntegerIDMixin, BaseUserManager
 
+from src.core.database import db_helper
+from src.models import Cart
 from src.models.user import User
 
 from src.core.config import settings
@@ -44,8 +46,14 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     async def on_after_register(
         self, user: User, request: Optional["Request"] = None
     ) -> None:
-        # Some logic
         log.warning(f"User {user.id} has registered.")
+
+        # Create Cart for current user before register
+        async with db_helper.session_factory() as session:
+            async with session.begin():
+                cart = Cart(user_id=user.id)
+                session.add(cart)
+                log.warning(f"Cart created for user {user.id}")
 
     async def on_after_forgot_password(
         self, user: User, token: str, request: Optional["Request"] = None
