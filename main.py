@@ -9,6 +9,8 @@ from src.core.database import db_helper
 
 from src.routers.auth import router as auth_router
 from src.routers.users import router as users_router
+from src.routers.products import router as products_router
+from src.routers.cart import router as cart_router
 
 
 @asynccontextmanager
@@ -26,6 +28,9 @@ main_app = FastAPI(
 )
 main_app.include_router(auth_router)
 main_app.include_router(users_router)
+main_app.include_router(products_router)
+main_app.include_router(cart_router)
+
 
 if __name__ == "__main__":
     uvicorn.run(main_app, host="0.0.0.0", port=8000)
