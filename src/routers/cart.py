@@ -15,7 +15,8 @@ from src.routers.dependencies.cart_dependencies import get_user_cart
 from src.services.cart import (
     add_item_to_cart,
     update_item_in_cart,
-    delete_item_from_cart, clear_cart_items,
+    delete_item_from_cart,
+    clear_cart_items,
 )
 
 if TYPE_CHECKING:
@@ -26,7 +27,6 @@ router = APIRouter(
 )
 
 
-# Эндпоинты
 @router.get("/", response_model=CartResponse)
 async def get_cart(cart: Cart = Depends(get_user_cart)):
     return cart

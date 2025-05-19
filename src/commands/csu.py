@@ -34,21 +34,25 @@ async def check_user_exists(session: "AsyncSession", email: str) -> bool:
     result = await session.execute(select(User).where(User.email == email))
     return result.scalar_one_or_none() is not None
 
-async def create_active_user(user_manager: UserManager, user_create: UserCreate) -> User:
+
+async def create_active_user(
+    user_manager: UserManager, user_create: UserCreate
+) -> User:
     user = await user_manager.create(
         user_create=user_create,
         safe=False,
     )
     return user
 
+
 async def create_superuser(
-        email: str = default_email,
-        password: str = default_password,
-        is_superuser: bool = default_is_superuser,
-        is_active: bool = default_is_active,
-        is_verified: bool = default_is_verified,
-        full_name: str = default_full_name,
-        phone: str = default_phone
+    email: str = default_email,
+    password: str = default_password,
+    is_superuser: bool = default_is_superuser,
+    is_active: bool = default_is_active,
+    is_verified: bool = default_is_verified,
+    full_name: str = default_full_name,
+    phone: str = default_phone,
 ):
     async with db_helper.session_factory() as session:
         if await check_user_exists(session, email):
@@ -67,6 +71,7 @@ async def create_superuser(
         async with get_user_db_context(session) as user_db:
             async with get_user_manager_context(user_db) as user_manager:
                 return await create_active_user(user_manager, user_create)
+
 
 if __name__ == "__main__":
     asyncio.run(create_superuser())
