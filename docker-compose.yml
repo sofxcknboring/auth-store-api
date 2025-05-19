@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c "
+        alembic upgrade head &&
+        python src/commands/csu.py &&
+        python main.py
+      "
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${APP_CONFIG__DB__DATABASE}
+      - POSTGRES_USER=${APP_CONFIG__DB__USER}
+      - POSTGRES_PASSWORD=${APP_CONFIG__DB__PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${APP_CONFIG__DB__USER} -d ${APP_CONFIG__DB__DATABASE}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
