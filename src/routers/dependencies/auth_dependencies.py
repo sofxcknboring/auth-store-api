@@ -4,9 +4,9 @@ from fastapi import Depends
 from fastapi_users import FastAPIUsers
 
 from src.models.user import User
-from . import auth_backend
-from .user_manager import UserManager
-from ..database import db_helper
+from src.core.auth import auth_backend
+from src.core.auth.user_manager import UserManager
+from src.core.database import db_helper
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
