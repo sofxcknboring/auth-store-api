@@ -32,9 +32,15 @@ class JwtToken(BaseModel):
     lifetime_seconds: int
 
 
+class SuperUser(BaseModel):
+    email: str
+    password: str
+
+
 class Settings(BaseSettings):
     db: DataBaseSettings
     jwt_token: JwtToken
+    super_user: SuperUser
     model_config = SettingsConfigDict(
         extra="ignore",
         env_file=".env",
