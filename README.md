@@ -20,7 +20,7 @@ Backend: FastAPI
 ```
 mkdir some_name
 cd some_name
-git clone "repo-url" .
+git clone git@github.com:sofxcknboring/auth-store-api.git .
 ```
 2. Настроить окружение:
 ```
