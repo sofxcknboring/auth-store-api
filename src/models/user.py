@@ -16,11 +16,11 @@ class User(Base, SQLAlchemyBaseUserTable[int]):
     __tablename__ = "users"
 
     full_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    phone: Mapped[str] = mapped_column(
-        String(12), unique=True, index=True, nullable=False
-    )
+    phone: Mapped[str] = mapped_column(String(12), index=True, nullable=False)
 
-    cart = relationship("Cart", back_populates="user", uselist=False, cascade="all, delete-orphan")
+    cart = relationship(
+        "Cart", back_populates="user", uselist=False, cascade="all, delete-orphan"
+    )
 
     @classmethod
     def get_db(cls, session: "AsyncSession"):
